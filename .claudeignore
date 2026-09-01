@@ -1,0 +1,8 @@
+# .claudeignore
+node_modules/
+dist/
+build/
+.next/
+coverage/
+package-lock.json
+pnpm-lock.yaml

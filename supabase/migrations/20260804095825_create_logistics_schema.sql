@@ -122,6 +122,11 @@ DROP POLICY IF EXISTS "anon_delete_delivery_jobs" ON delivery_jobs;
 CREATE POLICY "anon_delete_delivery_jobs" ON delivery_jobs FOR DELETE
   TO anon, authenticated USING (true);
 
+-- ======================== GRANTS (RLS policies alone are not enough; ========================
+-- Postgres also requires table-level privileges for the anon/authenticated roles.)
+GRANT USAGE ON SCHEMA public TO anon, authenticated;
+GRANT SELECT, INSERT, UPDATE, DELETE ON drivers, vehicles, delivery_jobs TO anon, authenticated;
+
 -- ======================== INDEXES ========================
 CREATE INDEX IF NOT EXISTS idx_delivery_jobs_driver_id ON delivery_jobs(driver_id);
 CREATE INDEX IF NOT EXISTS idx_delivery_jobs_status ON delivery_jobs(status);

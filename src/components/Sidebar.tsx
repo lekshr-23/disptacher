@@ -49,7 +49,7 @@ export function Sidebar({
             <Truck className="h-5 w-5 text-white" strokeWidth={2.5} />
           </div>
           <div className="flex-1">
-            <p className="text-sm font-bold tracking-tight text-white">Haulio</p>
+            <p className="text-sm font-bold tracking-tight text-white">Poly Pods Logistics</p>
             <p className="text-[11px] font-medium text-ink-400">Logistics OS</p>
           </div>
           <button
@@ -119,7 +119,7 @@ export function Sidebar({
             </div>
             <div className="flex-1 leading-tight">
               <p className="text-xs font-semibold text-white">Dispatch Ops</p>
-              <p className="text-[11px] text-ink-400">Bayshore Depot</p>
+              <p className="text-[11px] text-ink-400">UAQ</p>
             </div>
             <button
               className="rounded-lg p-1.5 text-ink-400 transition-colors hover:bg-ink-800 hover:text-white"

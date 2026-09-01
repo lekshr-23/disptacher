@@ -13,6 +13,7 @@ import {
   TrendingDown,
   CheckCircle2,
   ArrowRight,
+  Tag,
 } from 'lucide-react';
 import {
   vehicleTypeMeta,
@@ -26,12 +27,15 @@ import { Card, StatusBadge, Avatar } from '@/components/ui';
 
 interface FormState {
   customer: string;
+  referenceNo: string;
+  itemDescription: string;
   origin: string;
   destination: string;
   weightKg: string;
   pickupAt: string;
   deliverBy: string;
   priority: JobPriority;
+  natureOfDelivery: string;
   driverId: string;
   vehicleId: string;
 }
@@ -44,12 +48,15 @@ interface CreateJobFormProps {
 
 const initialForm: FormState = {
   customer: '',
-  origin: 'Bayshore Depot, CA',
+  referenceNo: '',
+  itemDescription: '',
+  origin: 'Poly Pods Industries, UAQ',
   destination: '',
   weightKg: '',
   pickupAt: '10:00',
   deliverBy: '14:00',
   priority: 'standard',
+  natureOfDelivery: '',
   driverId: '',
   vehicleId: '',
 };
@@ -58,6 +65,23 @@ const priorityOptions: { value: JobPriority; label: string; tone: string }[] = [
   { value: 'standard', label: 'Standard', tone: 'ink' },
   { value: 'high', label: 'High', tone: 'amber' },
   { value: 'urgent', label: 'Urgent', tone: 'rose' },
+];
+
+const natureOfDeliveryOptions = [
+  'Delivery',
+  'Return',
+  'Installation',
+  'Dismantle',
+  'Staff Pickup',
+  'Staff Drop Off',
+  'Cheque Collection',
+  'Cheque Deposit',
+  'Purchase',
+  'Site Visit - Repair',
+  'Site Visit - Investigate',
+  'Onloading',
+  'Offloading',
+  'Shifting',
 ];
 
 type OptimizePhase = 'idle' | 'loading' | 'done';
@@ -181,7 +205,7 @@ export function CreateJobForm({ jobs, drivers, vehicles }: CreateJobFormProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.customer || !form.destination || !form.weightKg) return;
+    if (!form.customer || !form.referenceNo || !form.destination || !form.weightKg) return;
 
     setSubmitting(true);
     setSubmitError(null);
@@ -216,7 +240,7 @@ export function CreateJobForm({ jobs, drivers, vehicles }: CreateJobFormProps) {
     setTimeout(() => setCreated(false), 3000);
   };
 
-  const isFormValid = form.customer && form.destination && form.weightKg;
+  const isFormValid = form.customer && form.referenceNo && form.destination && form.weightKg;
 
   const selectedDriver = drivers.find((d) => d.id === form.driverId);
   const selectedVehicle = vehicles.find((v) => v.id === form.vehicleId);
@@ -242,6 +266,37 @@ export function CreateJobForm({ jobs, drivers, vehicles }: CreateJobFormProps) {
               value={form.customer}
               onChange={(e) => update({ customer: e.target.value })}
             />
+          </Field>
+          <Field label="Reference No *" icon={Package}>
+            <input
+              required
+              className={inputClass}
+              placeholder="e.g. INV-2026-001/BILL-001"
+              value={form.referenceNo}
+              onChange={(e) => update({ referenceNo: e.target.value })}
+            />
+          </Field>
+          <Field label="Item Description" icon={Package}>
+            <input
+              className={inputClass}
+              placeholder="e.g. Item description"
+              value={form.itemDescription}
+              onChange={(e) => update({ itemDescription: e.target.value })}
+            />
+          </Field>
+          <Field label="Nature of Delivery" icon={Tag}>
+            <select
+              className={inputClass}
+              value={form.natureOfDelivery}
+              onChange={(e) => update({ natureOfDelivery: e.target.value })}
+            >
+              <option value="">Select nature of delivery…</option>
+              {natureOfDeliveryOptions.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
           </Field>
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
